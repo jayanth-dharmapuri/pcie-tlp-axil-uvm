@@ -1,0 +1,133 @@
+# ==========================================================================
+# dummy_test -- Phase 2 connectivity smoke test, first run on a real UVM sim
+# --------------------------------------------------------------------------
+# Date        : 2026-09-26 16:51 UTC
+# Platform    : EDA Playground
+# Simulator   : QuestaSim-64 2025.2 (qrun)
+# UVM         : UVM-1.2 (+ questa_uvm_pkg 1.2.3)
+# design.sv   : pcie_axil_master_minimal.v (verilog-pcie @ 25156a9, unmodified)
+# testbench.sv: tb/tb_for_eda.sv
+# Width       : TLP_DATA_WIDTH = 64 (default, no +define)
+# Result      : PASS  (UVM_ERROR 0, UVM_FATAL 0)
+#
+# Filtered: Siemens banner, library-loading lines, and the UVM release
+# notes are removed. Everything below is copied verbatim from the log.
+# ==========================================================================
+
+## ---- Command ----
+qrun -batch -access=rw+/. -uvmhome uvm-1.2 -timescale 1ns/1ns -mfcu design.sv testbench.sv -voptargs="+acc=npr" -do " run -all; exit"
+
+## ---- Compile (vlog) ----
+-- Compiling module pcie_axil_master_minimal
+-- Compiling package pcie_axil_params_pkg
+-- Compiling interface clk_rst_if
+-- Compiling interface tlp_req_if
+-- Compiling interface axil_if
+-- Compiling interface tlp_cpl_if
+-- Compiling package tlp_req_pkg
+-- Compiling package axil_slave_pkg
+-- Compiling package tlp_cpl_pkg
+-- Compiling package pcie_axil_env_pkg
+-- Compiling package pcie_axil_test_pkg
+-- Compiling module tb_top
+Top level modules:
+	tb_top
+vlog: Errors: 0, Warnings: 0
+
+## ---- Optimize (vopt) ----
+** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+   (note: comes from EDA Playground's own -voptargs=+acc=npr flag, not from our code)
+vopt: Errors: 0, Warnings: 1
+
+## ---- Simulation (vsim) ----
+# UVM_INFO @ 0: reporter [RNTST] Running test dummy_test...
+# UVM_INFO .../uvm-1.2/src/base/uvm_root.svh(579) @ 0: reporter [UVMTOP] UVM testbench topology:
+# ------------------------------------------------------------------
+# Name                       Type                        Size  Value
+# ------------------------------------------------------------------
+# uvm_test_top               dummy_test                  -     @379
+#   m_env                    pcie_axil_env               -     @403
+#     m_axil_agent           axil_slave_agent            -     @429
+#       ap                   uvm_analysis_port           -     @455
+#       m_drv                axil_slave_driver           -     @595
+#         rsp_port           uvm_analysis_port           -     @612
+#         seq_item_port      uvm_seq_item_pull_port      -     @603
+#       m_mon                axil_monitor                -     @464
+#         ap                 uvm_analysis_port           -     @621
+#         req_ap             uvm_analysis_port           -     @630
+#       m_sqr                axil_slave_sequencer        -     @472
+#         obs_req_fifo       uvm_tlm_analysis_fifo #(T)  -     @644
+#           analysis_export  uvm_analysis_imp            -     @688
+#           get_ap           uvm_analysis_port           -     @679
+#           get_peek_export  uvm_get_peek_imp            -     @661
+#           put_ap           uvm_analysis_port           -     @670
+#           put_export       uvm_put_imp                 -     @652
+#         rsp_export         uvm_analysis_export         -     @480
+#         seq_item_export    uvm_seq_item_pull_imp       -     @586
+#         arbitration_queue  array                       0     -
+#         lock_queue         array                       0     -
+#         num_last_reqs      integral                    32    'd1
+#         num_last_rsps      integral                    32    'd1
+#     m_cpl_agent            tlp_cpl_agent               -     @437
+#       ap                   uvm_analysis_port           -     @699
+#       m_drv                tlp_cpl_driver              -     @839
+#         rsp_port           uvm_analysis_port           -     @856
+#         seq_item_port      uvm_seq_item_pull_port      -     @847
+#       m_mon                tlp_cpl_monitor             -     @708
+#         ap                 uvm_analysis_port           -     @865
+#       m_sqr                uvm_sequencer               -     @716
+#         rsp_export         uvm_analysis_export         -     @724
+#         seq_item_export    uvm_seq_item_pull_imp       -     @830
+#         arbitration_queue  array                       0     -
+#         lock_queue         array                       0     -
+#         num_last_reqs      integral                    32    'd1
+#         num_last_rsps      integral                    32    'd1
+#     m_req_agent            tlp_req_agent               -     @421
+#       ap                   uvm_analysis_port           -     @881
+#       m_drv                tlp_req_driver              -     @1021
+#         rsp_port           uvm_analysis_port           -     @1038
+#         seq_item_port      uvm_seq_item_pull_port      -     @1029
+#       m_mon                tlp_req_monitor             -     @890
+#         ap                 uvm_analysis_port           -     @1047
+#       m_sqr                uvm_sequencer               -     @898
+#         rsp_export         uvm_analysis_export         -     @906
+#         seq_item_export    uvm_seq_item_pull_imp       -     @1012
+#         arbitration_queue  array                       0     -
+#         lock_queue         array                       0     -
+#         num_last_reqs      integral                    32    'd1
+#         num_last_rsps      integral                    32    'd1
+#     m_scb                  pcie_axil_scoreboard        -     @445
+#       axil_imp             uvm_analysis_imp_axil       -     @1070
+#       cpl_imp              uvm_analysis_imp_cpl        -     @1079
+#       req_imp              uvm_analysis_imp_req        -     @1061
+# ------------------------------------------------------------------
+#
+# UVM_INFO .../uvm_objection.svh(1270) @ 295000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO testbench.sv(1048) @ 295000: uvm_test_top [dummy_test] ready_cycles=22 -- connectivity OK if no errors above
+# UVM_INFO testbench.sv(874) @ 295000: uvm_test_top.m_env.m_scb [pcie_axil_scoreboard] received req=0 axil=0 cpl=0
+#
+# --- UVM Report Summary ---
+# ** Report counts by severity
+# UVM_INFO :    8
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [UVM/RELNOTES]     1
+# [UVMTOP]     1
+# [dummy_test]     1
+# [pcie_axil_scoreboard]     1
+#
+# ** Note: $finish    : .../uvm-1.2/src/base/uvm_root.svh(517)
+#    Time: 295 ns  Iteration: 69  Instance: /tb_top
+
+## ---- Summary ----
+    qrun: Errors:   0, Warnings:   0
+    vlog: Errors:   0, Warnings:   0
+    vopt: Errors:   0, Warnings:   1
+    vsim: Errors:   0, Warnings:   0
+  Totals: Errors:   0, Warnings:   1
+Waves: ./dump.vcd (opened in EPWave)
